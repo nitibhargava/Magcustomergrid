@@ -1,0 +1,8 @@
+<config>
+  <modules>
+    <Magcoder_Customergrid>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Magcoder_Customergrid>
+  </modules>
+</config>

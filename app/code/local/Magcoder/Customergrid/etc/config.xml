@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Magcoder_Customergrid>
+			<version>0.1.0</version>
+		</Magcoder_Customergrid>
+	</modules>
+	<global>
+		<models>
+			<customergrid>
+				<class>Magcoder_Customergrid_Model</class>
+			</customergrid>
+		</models>
+		<blocks>
+			<customergrid>
+				<class>Magcoder_Customergrid_Block</class>
+			</customergrid>
+		</blocks>
+		<events>
+			<core_block_abstract_prepare_layout_before>
+				<observers>
+					<magcustgrid_add_column>
+						<type>model</type>
+						<class>Magcoder_Customergrid_Model_Observer</class>
+						<method>addCompanyColumn</method>
+					</magcustgrid_add_column>
+				</observers>
+			</core_block_abstract_prepare_layout_before>
+		</events>
+	</global>
+</config>
