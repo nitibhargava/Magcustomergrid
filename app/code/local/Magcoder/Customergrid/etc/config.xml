@@ -5,17 +5,7 @@
 			<version>0.1.0</version>
 		</Magcoder_Customergrid>
 	</modules>
-	<global>
-		<models>
-			<customergrid>
-				<class>Magcoder_Customergrid_Model</class>
-			</customergrid>
-		</models>
-		<blocks>
-			<customergrid>
-				<class>Magcoder_Customergrid_Block</class>
-			</customergrid>
-		</blocks>
+	<adminhtml>
 		<events>
 			<core_block_abstract_prepare_layout_before>
 				<observers>
@@ -26,6 +16,22 @@
 					</magcustgrid_add_column>
 				</observers>
 			</core_block_abstract_prepare_layout_before>
+			<eav_collection_abstract_load_before>
+				<observers>
+					<magcustgrid_update_customer_grid_collection>
+						<type>model</type>
+						<class>Magcoder_Customergrid_Model_Observer</class>
+						<method>updateCustomerGridCollection</method>
+					</magcustgrid_update_customer_grid_collection>
+				</observers>
+			</eav_collection_abstract_load_before>
 		</events>
+	</adminhtml>
+	<global>
+		<models>
+			<customergrid>
+				<class>Magcoder_Customergrid_Model</class>
+			</customergrid>
+		</models>
 	</global>
 </config>

@@ -15,10 +15,45 @@ Class Magcoder_Customergrid_Model_Observer{
 				'header'=>'Company',
 				'type'=>'text',
 				'index'=>'billing_company',
-				'filter'=>false,
-				'sortable'=>false,
-				'renderer'=>'Magcoder_Customergrid_Block_Adminhtml_Rendrer_Customercompany'
+				'filter_condition_callback'=>array($this,'companyFilterCallback')
 			),'Telephone');
+		}
+	}
+	
+	/*
+	 * Purpose: Modify customer grid collection data
+	 * Params: Varien_Event_Observer $observer
+	 * return: Magcoder_Customergrid_Model_Observer $this
+	 * */
+	 
+	public function updateCustomerGridCollection(Varien_Event_Observer $observer){
+		try{
+			$collection=$observer->getCollection();
+			if(!isset($collection)){ // Check if is collectiom
+				return $this;
+			}
+			if($collection instanceof Mage_Customer_Model_Resource_Customer_Collection){ // Check if is customer collection object
+				$collection->joinAttribute('billing_company', 'customer_address/company', 'default_billing', null, 'left');
+			}
+			if(Mage::registry('company_filter_value')){
+				$collection->addFieldToFilter('billing_company',array('like'=>"%".Mage::registry('company_filter_value')."%"));
+			}			
+		}
+		catch(Exception $e){}
+	}
+	
+	/*
+	 * Purpose: Add company filter to collection
+	 * Params: Mage_Customer_Model_Resource_Customer_Collection $collection,
+	 *         Mage_Adminhtml_Block_Widget_Grid_Column $column
+	 * return: Magcoder_Customergrid_Model_Observer $this
+	 * */
+	public function companyFilterCallback($collection,$column){
+		if(!$value=$column->getFilter()->getValue()){
+			return $this;
+		}
+		if(!Mage::registry('company_filter_value')){
+			Mage::register('company_filter_value',$value);
 		}
 	}
 }
